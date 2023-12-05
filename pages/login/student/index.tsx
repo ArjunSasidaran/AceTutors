@@ -1,10 +1,8 @@
 import React from 'react'
 import { ClerkProvider } from '@clerk/nextjs'
 
-export default function index() {
+export default function Login() {
   return (
-    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
-      <div>Student login</div>
-    </ClerkProvider>
+      <div>Student Login</div>
   )
 }
