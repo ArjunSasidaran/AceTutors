@@ -13,7 +13,7 @@ export default function Home() {
       <h1 className="font-bold text-5xl text-cyan-950 fade-in">AceTutors</h1>
         <p className='mb-10'>A place to connect with tutors and students for York Univeristy courses.</p>
         <div className='flex'>
-          <Link href='/login/student'><button className='bg-cyan-950 text-white py-2 px-6 rounded'>I'm a Student</button></Link><Link href='/login/teacher'><button className='bg-cyan-950 ml-2 text-white py-2 px-8 rounded'>I'm a Tutor</button></Link>
+          <Link href='/login/student/LoginSignUp'><button className='bg-cyan-950 text-white py-2 px-6 rounded'>I'm a Student</button></Link><Link href='/login/teacher'><button className='bg-cyan-950 ml-2 text-white py-2 px-8 rounded'>I'm a Tutor</button></Link>
         </div>
       </div>
       <div>

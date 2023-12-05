@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 200px;
+    background:
+    #fff;
+    padding-bottom: 30px;
+}
+  
+  .input {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust the space between the icon and the input field */
+    /* Add any additional styles for the input container */
+  }
+  
+  /* Make sure to include styles for your images if needed */
+  .img {
+    /* If you want all images to have the same width and height */
+    width: 20px; /* Example size, adjust as needed */
+    height: 20px; /* Example size, adjust as needed */
+  }
+
+  
+  
+  /* Add any additional global or specific styles as needed */
+  

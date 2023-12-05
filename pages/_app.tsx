@@ -1,9 +1,18 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import { ClerkProvider } from '@clerk/nextjs'
+import '../styles/globals.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { AppProps } from 'next/app';
 
-export default function App({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-      <Component {...pageProps} />
-  )
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow">
+        <Component {...pageProps} />
+      </main>
+      <Footer />
+    </div>
+  );
 }
+
+export default MyApp;
