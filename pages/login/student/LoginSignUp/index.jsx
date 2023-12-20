@@ -9,27 +9,26 @@ const LoginSignUp = () => {
         <div className={styles.underline}></div>
       </div>
 
-      <div className={styles.inputs}>
-        <div className={styles.input}>
+      <div className={styles.inputPair}>
+        <div className = {styles.input}>
           <img src="/assets/person.png" alt="User icon" />
           <input type="text" placeholder="Username" />
         </div>
-
-        <div className={styles.input}>
+        <div className = {styles.input}>
           <img src="/assets/email.png" alt="Email icon" />
           <input type="email" placeholder="Email" />
         </div>
-
-        <div className={styles.input}>
+         
+        <div className = {styles.input}>
           <img src="/assets/password.png" alt="Password icon" />
           <input type="password" placeholder="Password" />
         </div>
       </div>
 
-      <div className="forgot-password">Forgot Password? <span>Click Here!</span></div>
-      <div className="submit-container">
-        <div className="submit">Sign Up</div>
-        <div className="submit">Login</div>
+      <div className = {styles.buttons}>
+          <div className="submit-container">
+            <button className="bg-cyan-950 text-white py-2 px-6 rounded">Sign Up</button>
+          </div>
       </div>
 
     </div>

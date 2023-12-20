@@ -10,17 +10,48 @@
   
   .input {
     display: flex;
-    align-items: center;
-    gap: 10px; /* Adjust the space between the icon and the input field */
+    flex-direction: row; 
+    align-items: center; 
+    gap: 9px; 
     /* Add any additional styles for the input container */
   }
-  
+
+
+
   /* Make sure to include styles for your images if needed */
   .img {
     /* If you want all images to have the same width and height */
     width: 20px; /* Example size, adjust as needed */
     height: 20px; /* Example size, adjust as needed */
   }
+
+  .text{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 30px;
+    align-items: center;
+    margin-bottom: 20px;
+    gap:20px;
+  }
+
+  .buttons{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 30px;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .inputPair {
+    display: flex;
+    flex-direction: column;  /* Change from row to column */
+    align-items: center;
+    gap: 20px;
+    /* Add any additional styles for the input container */
+  }
+
 
   
   
