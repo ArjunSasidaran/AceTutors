@@ -10,8 +10,8 @@ const Index = () => {
         <FaSearch />
         <input
           type="search"
-          placeholder="Type Here"
-          className="w-full p-4 rounded-full bg-cyan-950"
+          placeholder="Search Your Courses"
+          className={styles.searchbar}
         />
       </div>  
     </form>
