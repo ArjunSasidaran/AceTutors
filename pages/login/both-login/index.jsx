@@ -25,7 +25,7 @@ const LoginSignUp = () => {
 
         <div className = {styles.buttons}>
             <div className="submit-container">
-              <button className="bg-cyan-950 text-white py-2 px-6 rounded">Enter</button>
+            <a href='/after-auth-page'><button className="bg-cyan-950 text-white py-2 px-6 rounded">Enter</button></a>
             </div>
         </div>
     </div>
