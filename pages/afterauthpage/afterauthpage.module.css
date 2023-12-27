@@ -16,7 +16,10 @@
     border-radius:8px;
     margin-left: 10px;
     padding-left:10px;
-    border-color: rgb(8, 51, 68);
+}
+
+.searchbar:focus{
+    outline: none;
 }
 
 .container2{
@@ -31,4 +34,26 @@
     padding-right:10px;
     
 }
+
+.searchResults{
+    margin-top:10px;
+    text-align: left;
+    overflow-y:auto;
+    max-height:200px;
+
+}
+
+.resultButton {
+    cursor: pointer;
+    padding: 6px;
+    margin: 2px;
+    display:block;
+    
+    
+  }
+  
+  .resultButton:hover {
+    background-color: #e0e0e0; /* Highlight color on hover */
+    
+  }
 
