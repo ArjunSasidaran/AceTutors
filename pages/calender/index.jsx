@@ -1,22 +1,23 @@
-/*
-import React, { useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+// Import React and CSS file
+import React from "react";
+import './calender.module.css';
 
-function index() {
-   const [date, changeDate] = useState(new Date());
+// Create a functional component
+const Index = () => {
+  return (
+    <div className="container">
+      <ul>
+        <li>
+          <div className="bottom">Heading</div>
+        </li>
+        <li>
+          <div className="bottom">Heading</div>
+        </li>
+        {/* Add more li elements as needed */}
+      </ul>
+    </div>
+  );
+};
 
-   function changeValue(val) {
-      changeDate(val);
-   }
-
-   return (
-      <div>
-         <Calendar onChange = {changeValue} value = {date} />
-         <p>The selected date is - {date.toLocaleDateString()}</p>
-      </div>
-   );
-}
-export default index;
-
-*/
+// Export the component
+export default Index;
