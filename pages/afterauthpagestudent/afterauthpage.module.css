@@ -57,3 +57,13 @@
     
   }
 
+
+  .splitContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .partAbove {
+    flex-grow: 1; /* Take up remaining vertical space */
+  }
+  

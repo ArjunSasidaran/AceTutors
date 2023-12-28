@@ -23,9 +23,11 @@ const LoginSignUp = () => {
           </div>
         </div>
 
+        
+
         <div className = {styles.buttons}>
             <div className="submit-container">
-            <a href='/afterauthpage'><button className="bg-cyan-950 text-white py-2 px-6 rounded">Enter</button></a>
+            <a href='/afterauthpagetutor'><button className="bg-cyan-950 text-white py-2 px-6 rounded">Enter</button></a>
             </div>
         </div>
     </div>

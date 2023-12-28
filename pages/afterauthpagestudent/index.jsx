@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import styles from 'pages/afterauthpage/afterauthpage.module.css';
+import styles from 'pages/afterauthpagestudent/afterauthpage.module.css';
 
 
 const Index = () => {
