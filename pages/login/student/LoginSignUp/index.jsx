@@ -10,12 +10,8 @@ const LoginSignUp = () => {
 
 
       <div className={styles.box}>
-      <div className={styles.text}>Sign Up</div>
+      <div className={styles.text}>Log In</div>
         <div className={styles.inputPair}>
-          <div className = {styles.input}>
-            <img src="/assets/person.png" alt="User icon" />
-            <input type="text" className="rounded-lg" placeholder=" Username" />
-          </div>
           <div className = {styles.input}>
             <img src="/assets/email.png" alt="Email icon" />
             <input type="email" className="rounded-lg" placeholder=" Email" />
@@ -29,7 +25,7 @@ const LoginSignUp = () => {
 
         <div className = {styles.buttons}>
             <div className="submit-container">
-              <button className="bg-cyan-950 text-white py-2 px-6 rounded">Create Account</button>
+            <a href='/afterauthpagestudent'><button className="bg-cyan-950 text-white py-2 px-6 rounded">Enter</button></a>
             </div>
         </div>
     </div>
@@ -38,3 +34,4 @@ const LoginSignUp = () => {
 }
 
 export default LoginSignUp;
+
