@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import styles from 'pages/afterauthpagetutor/afterauthpage.module.css';
 import Link from "next/link";
+import Box from "./Box"; // Import the Box component
+
 
 const Index = () => {
   const [input, setInput] = useState('');
@@ -37,6 +39,18 @@ const Index = () => {
         <p className="mb-10">
           Place to view all your listings.
         </p>
+
+        <Box
+          coursename="Math 2030"
+          bio="My name is John, I got an A+ in this course."
+          details="Contact Details: xyz@gmail.com"
+        />
+        <Box
+          coursename="EECS 2031"
+          bio="My name is Jake, I got an A+ in this course."
+          details="Contact Details: xyz@gmail.com"
+        />
+
       </div>
 
       {/* Search bar on the right */}
@@ -55,7 +69,7 @@ const Index = () => {
         </div>
         <div className={styles.searchResults}>
           {results.map((result) => (
-            <a key={result.id} href="/calendar">
+            <a key={result.id} href="/calender">
               <button className={styles.resultButton}>{result.title}</button>
             </a>
           ))}
