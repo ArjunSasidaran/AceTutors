@@ -1,40 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import styles from "pages/afterauthpagetutor/afterauthpage.module.css";
 import Link from "next/link";
-import Box from "./Box"; // Import the Box component
-
+import Box from "./Box";
 import { firestore } from "backend/server.js";
-import { collection, query, where, getDocs } from "@firebase/firestore";
+import { collection, getDocs } from "@firebase/firestore";
 import { debounce } from "lodash";
 
 const Index = () => {
-  // search value
   const [input, setInput] = useState("");
   const [results, setResults] = useState([]);
 
-  const fetchCourseNames = async (value) => {
-    try {
-      const coursesRef = collection(firestore, "Courses");
-      //const q = query(coursesRef, where('course name', '==', value))
-      const querySnapshot = await getDocs(coursesRef);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storedData = localStorage.getItem("courseNames");
+        if (storedData) {
+          setResults(JSON.parse(storedData));
+        } else {
+          const coursesRef = collection(firestore, "Courses");
+          const querySnapshot = await getDocs(coursesRef);
+          const courseNames = querySnapshot.docs.map(
+            (doc) => doc.data()["course name"]
+          );
+          localStorage.setItem("courseNames", JSON.stringify(courseNames));
+          setResults(courseNames);
+        }
+      } catch (error) {
+        console.error("Error fetching or storing course names:", error.message);
+      }
+    };
 
-      const courseNames = querySnapshot.docs.map(
-        (doc) => doc.data()["course name"]
+    fetchData();
+  }, []);
+
+  const debouncedFetchCourseNames = debounce((value) => {
+    const storedData = localStorage.getItem("courseNames");
+    if (storedData) {
+      const filteredResults = JSON.parse(storedData).filter((course) =>
+        course.toLowerCase().includes(value.toLowerCase())
       );
-      console.log(courseNames);
-      const results = courseNames.filter((course) => {
-        return (
-          value && course && course.toLowerCase().includes(value.toLowerCase())
-        );
-      });
-      setResults(results);
-    } catch (error) {
-      console.error("Error fetching course names:", error.message);
+      setResults(filteredResults);
     }
-  };
-
-  const debouncedFetchCourseNames = debounce(fetchCourseNames, 5000);
+  }, 500);
 
   const handleChange = (value) => {
     setInput(value);
@@ -77,13 +85,16 @@ const Index = () => {
               value={input}
             />
           </div>
-          <div className={styles.searchResults}>
-            {results.map((courseName, index) => (
-              <a key={index} href="/calender">
-                <button className={styles.resultButton}>{courseName}</button>
-              </a>
-            ))}
-          </div>
+          {/* Conditionally render search results */}
+          {input && (
+            <div className={styles.searchResults}>
+              {results.map((courseName, index) => (
+                <a key={index} href="/calender">
+                  <button className={styles.resultButton}>{courseName}</button>
+                </a>
+              ))}
+            </div>
+          )}
         </form>
       </div>
     </div>
