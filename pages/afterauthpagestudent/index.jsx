@@ -49,9 +49,9 @@ const Index = () => {
   };
 
   return (
-    <form className={styles.container} action="/calender">
+    <form className={styles.container} action="/studentViewCourses">
       <div className={styles.container2}>
-        <a href="/calender">
+        <a href="/studentViewCourses">
           <button>
             <FaSearch />
           </button>
@@ -67,7 +67,7 @@ const Index = () => {
       {input && (
         <div className={styles.searchResults}>
           {results.map((courseName, index) => (
-            <a key={index} href="/calender">
+            <a key={index} href="/studentViewCourses">
               <button className={styles.resultButton}>{courseName}</button>
             </a>
           ))}

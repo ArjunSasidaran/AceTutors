@@ -10,12 +10,12 @@ const Index = () => {
       <div className={styles.formContainer}>
         <form>
           <div className={styles.fieldContainer}>
-            <label className={styles.createlabel}>Name:</label>
+            <label className={styles.createlabel}>Bio:</label>
             <input type="text" className={styles.createinput} required />
           </div>
 
           <div className={styles.fieldContainer}>
-            <label className={styles.createlabel}>Bio:</label>
+            <label className={styles.createlabel}>Availability:</label>
             <textarea className={styles.createtextarea} required />
           </div>
 
