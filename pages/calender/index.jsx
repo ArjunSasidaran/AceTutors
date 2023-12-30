@@ -23,6 +23,9 @@ const Index = () => {
     }
     try {
       await addDoc(ref, data);
+      e.target.reset();
+      alert('Form submitted successfully!');
+      
     } catch(e) {
       console.log(e);
     }
