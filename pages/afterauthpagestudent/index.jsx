@@ -43,7 +43,7 @@ const Index = () => {
       );
       setResults(filteredResults);
     }
-  }, 500);
+  }, 100);
 
   const handleChange = (value) => {
     setInput(value);
