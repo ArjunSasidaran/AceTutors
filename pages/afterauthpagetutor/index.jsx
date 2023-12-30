@@ -14,17 +14,18 @@ const Index = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const storedData = localStorage.getItem("courseNames");
-        if (storedData) {
+        const storedData = localStorage.getItem("courseData");
+        if (storedData ) {
           setResults(JSON.parse(storedData));
         } else {
           const coursesRef = collection(firestore, "Courses");
           const querySnapshot = await getDocs(coursesRef);
-          const courseNames = querySnapshot.docs.map(
-            (doc) => doc.data()["course name"]
+          const coursesData = querySnapshot.docs.map(
+            (doc) => doc.data()
           );
-          localStorage.setItem("courseNames", JSON.stringify(courseNames));
-          setResults(courseNames);
+
+          localStorage.setItem("courseData", JSON.stringify(coursesData));
+          setResults(coursesData);
         }
       } catch (error) {
         console.error("Error fetching or storing course names:", error.message);
@@ -35,10 +36,12 @@ const Index = () => {
   }, []);
 
   const debouncedFetchCourseNames = debounce((value) => {
-    const storedData = localStorage.getItem("courseNames");
+    const storedData = localStorage.getItem("courseData");
+    console.log(storedData);
     if (storedData) {
       const filteredResults = JSON.parse(storedData).filter((course) =>
-        course.toLowerCase().includes(value.toLowerCase())
+        course["course name"].toLowerCase().includes(value.toLowerCase()) || 
+        course["course code"].toLowerCase().includes(value.toLowerCase())
       );
       setResults(filteredResults);
     }
@@ -88,9 +91,9 @@ const Index = () => {
           {/* Conditionally render search results */}
           {input && (
             <div className={styles.searchResults}>
-              {results.map((courseName, index) => (
+              {results.map((course, index) => (
                 <a key={index} href="/calender">
-                  <button className={styles.resultButton}>{courseName}</button>
+                  <button className={styles.resultButton}>{course["course code"]} - {course["course name"]}</button>
                 </a>
               ))}
             </div>
