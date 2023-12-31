@@ -10,6 +10,8 @@ const Index = () => {
   const [input, setInput] = useState("");
   const [results, setResults] = useState([]);
 
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,6 +52,10 @@ const Index = () => {
     debouncedFetchCourseNames(value);
   };
 
+  const handleCourseClick = (courseCode, courseName) => {
+    localStorage.setItem("selectedCourse", JSON.stringify({ courseCode, courseName }));
+  };
+
   return (
     <form className={styles.container} action="/studentViewCourses">
       <div className={styles.container2}>
@@ -70,7 +76,7 @@ const Index = () => {
           {input && (
             <div className={styles.searchResults}>
               {results.map((course, index) => (
-                <a key={index} href="/calender">
+                <a key={index} onClick = {() => handleCourseClick(course["course code"],course["course name"])}>
                   <button className={styles.resultButton}>{course["course code"]} - {course["course name"]}</button>
                 </a>
               ))}

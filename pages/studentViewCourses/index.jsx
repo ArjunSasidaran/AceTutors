@@ -1,9 +1,20 @@
 // Index.js
 import React from 'react';
 import Box from './Box';
+import { useState, useEffect } from 'react';
 
 const Index = () => {
   // Sample data for available tutors
+
+  const [selectedCourse, setSelectedCourse] = useState({ courseCode: "" }, {courseName: ""});
+
+  useEffect(() => {
+    const storedCourse = localStorage.getItem("selectedCourse");
+    if (storedCourse) {
+      setSelectedCourse(JSON.parse(storedCourse));
+    }
+  }, []);
+
   const tutors = [
     {
       bio: 'My name is John, I got an A+ in this course.',
@@ -20,7 +31,8 @@ const Index = () => {
     <div className="max-w-6xl m-auto p-4">
       {/* Available Tutors section at the top */}
       <div className="text-center mb-6">
-        <h1 className="font-bold text-4xl text-cyan-950 fade-in mb-10">Available Tutors for CourseName</h1>
+        <h1 className="font-bold text-4xl text-cyan-950 fade-in mb-10">Available Tutors for</h1>
+        <h1 className='font-bold text-3xl text-cyan-950 fade-in mb-10'> {selectedCourse.courseCode} - {selectedCourse.courseName}</h1>
       </div>
 
       {/* Render Box components for each tutor in a column with more space between */}
