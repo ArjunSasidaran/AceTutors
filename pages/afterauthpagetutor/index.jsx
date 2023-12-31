@@ -52,6 +52,10 @@ const Index = () => {
     debouncedFetchCourseNames(value);
   };
 
+  const handleCourseClick = (courseCode, courseName) => {
+    localStorage.setItem("selectedCourse", JSON.stringify({ courseCode, courseName }));
+  };
+
   return (
     <div className="max-w-6xl m-auto flex" style={{ height: "90vh" }}>
       {/* Dashboard at the left */}
@@ -92,7 +96,7 @@ const Index = () => {
           {input && (
             <div className={styles.searchResults}>
               {results.map((course, index) => (
-                <a key={index} href="/calender">
+                <a key={index} href="/calender" onClick = {() => handleCourseClick(course["course code"],course["course name"])}>
                   <button className={styles.resultButton}>{course["course code"]} - {course["course name"]}</button>
                 </a>
               ))}
