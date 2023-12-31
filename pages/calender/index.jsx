@@ -1,5 +1,5 @@
 // JSX file (e.g., index.jsx)
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styles from "./calender.module.css";
 import { firestore } from "backend/server.js";
 import { addDoc, collection } from "@firebase/firestore";
@@ -9,6 +9,15 @@ const Index = () => {
   const bio = useRef();
   const avail = useRef();
   const contact = useRef();
+
+  const [selectedCourse, setSelectedCourse] = useState({ courseCode: "" }, {courseName: ""});
+
+  useEffect(() => {
+    const storedCourse = localStorage.getItem("selectedCourse");
+    if (storedCourse) {
+      setSelectedCourse(JSON.parse(storedCourse));
+    }
+  }, []);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -35,7 +44,7 @@ const Index = () => {
 
   return (
     <div className={styles.create}>
-      <h2 className={styles.createh2}>Become a Tutor for CourseName</h2>
+      <h2 className={styles.createh2}>Become a Tutor for {selectedCourse.courseCode} - {selectedCourse.courseName} </h2>
 
       <div className={styles.formContainer}>
         <form onSubmit={handleSave}>
