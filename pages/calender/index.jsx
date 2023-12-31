@@ -28,6 +28,8 @@ const Index = () => {
       bio: bio.current.value,
       avail: avail.current.value,
       contact: contact.current.value,
+      course_code: selectedCourse.courseCode,
+      course_name: selectedCourse.courseName,
     };
     try {
       await addDoc(ref, data);
