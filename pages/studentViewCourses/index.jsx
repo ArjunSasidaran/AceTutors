@@ -1,12 +1,11 @@
 // Index.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from './Box';
-import { useState, useEffect } from 'react';
+import { firestore } from "backend/server.js";
+import { collection, query, getDocs, where } from "@firebase/firestore";
 
 const Index = () => {
-  // Sample data for available tutors
-
-  const [selectedCourse, setSelectedCourse] = useState({ courseCode: "" }, {courseName: ""});
+  const [selectedCourse, setSelectedCourse] = useState({ courseCode: "", courseName: "" });
 
   useEffect(() => {
     const storedCourse = localStorage.getItem("selectedCourse");
@@ -14,6 +13,24 @@ const Index = () => {
       setSelectedCourse(JSON.parse(storedCourse));
     }
   }, []);
+
+  useEffect(() => {
+    const compareCourseName = async () => {
+      try {
+        console.log("Selected Course:", selectedCourse);
+        const coursesRef = collection(firestore, 'TutorCourse');
+        const q = query(coursesRef, where('course_name', '==', selectedCourse.courseName));
+        const querySnapshot = await getDocs(q);
+
+        const courseNames = querySnapshot.docs.map((doc) => doc.data());
+        console.log(courseNames);
+      } catch (error) {
+        console.error('Error fetching course names:', error.message);
+      }
+    };
+
+    compareCourseName(selectedCourse);
+  }, [selectedCourse]);
 
   const tutors = [
     {
