@@ -6,6 +6,7 @@ import { collection, query, getDocs, where } from "@firebase/firestore";
 
 const Index = () => {
   const [selectedCourse, setSelectedCourse] = useState({ courseCode: "", courseName: "" });
+  const [tutors, setTutors] = useState([]);
 
   useEffect(() => {
     const storedCourse = localStorage.getItem("selectedCourse");
@@ -22,27 +23,16 @@ const Index = () => {
         const q = query(coursesRef, where('course_name', '==', selectedCourse.courseName));
         const querySnapshot = await getDocs(q);
 
-        const courseNames = querySnapshot.docs.map((doc) => doc.data());
-        console.log(courseNames);
+        const tutorData = querySnapshot.docs.map((doc) => doc.data());
+        console.log(tutorData);
+        setTutors(tutorData);
       } catch (error) {
-        console.error('Error fetching course names:', error.message);
+        console.error('Error fetching tutor data:', error.message);
       }
     };
 
     compareCourseName(selectedCourse);
   }, [selectedCourse]);
-
-  const tutors = [
-    {
-      bio: 'My name is John, I got an A+ in this course.',
-      details: 'Contact Details: xyz@gmail.com',
-    },
-    {
-      bio: 'My name is Jake, I got an A+ in this course.',
-      details: 'Contact Details: xyz@gmail.com',
-    },
-    // Add more tutor data as needed
-  ];
 
   return (
     <div className="max-w-6xl m-auto p-4">
@@ -52,17 +42,22 @@ const Index = () => {
         <h1 className='font-bold text-3xl text-cyan-950 fade-in mb-10'> {selectedCourse.courseCode} - {selectedCourse.courseName}</h1>
       </div>
 
-      {/* Render Box components for each tutor in a column with more space between */}
+      {/* Render Box components or display a message if no tutors available */}
       <div className="flex flex-col items-center">
-        {tutors.map((tutor, index) => (
-          <React.Fragment key={index}>
-            <Box
-              bio={tutor.bio}
-              details={tutor.details}
-            />
-            {index < tutors.length - 1 && <div className="h-8" />} {/* Adjust the height for the desired space */}
-          </React.Fragment>
-        ))}
+        {tutors.length > 0 ? (
+          tutors.map((tutor, index) => (
+            <React.Fragment key={index}>
+              <Box
+                bio={tutor.bio}
+                avail={tutor.avail}
+                contact={tutor.contact}
+              />
+              {index < tutors.length - 1 && <div className="h-8" />} {/* Adjust the height for the desired space */}
+            </React.Fragment>
+          ))
+        ) : (
+          <p className="fade-in text-lg text-gray-600">Sorry, no tutors available at the moment. Please check back later.</p>
+        )}
       </div>
     </div>
   );
