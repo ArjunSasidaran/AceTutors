@@ -18,7 +18,8 @@ const LoginSignUp = () => {
       console.log(user);
       window.location.href = '/afterauthpagetutor';
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
+      alert("Authentication failed. Please check your email and password."); // Show alert for authentication failure
     }
   }
 

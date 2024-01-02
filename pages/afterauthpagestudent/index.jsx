@@ -10,8 +10,6 @@ const Index = () => {
   const [input, setInput] = useState("");
   const [results, setResults] = useState([]);
 
-  
-
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -8,6 +8,7 @@ const LoginSignUp = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
+
   const login = async () => {
     try {
       const user = await signInWithEmailAndPassword(
@@ -18,7 +19,8 @@ const LoginSignUp = () => {
       console.log(user);
       window.location.href = '/afterauthpagestudent';
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
+      alert("Authentication failed. Please check your email and password."); // Show alert for authentication failure
     }
   }
 

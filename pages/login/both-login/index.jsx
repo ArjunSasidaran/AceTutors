@@ -1,9 +1,11 @@
 // Assuming you have the correct path to your CSS module
 import styles from "pages/login/LoginSignUp.module.css";
-import { auth, firestore }  from "backend/server.js";
-import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { useState } from "react";
+import { firestore } from "backend/server.js";
+
+const auth = getAuth(); // Initialize the auth object
 
 const LoginSignUp = () => {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -12,7 +14,40 @@ const LoginSignUp = () => {
   const [userType, setUserType] = useState("");
 
   const register = async () => {
+    if (!userType) {
+      alert('Please select whether you are a Student or Tutor.');
+      return;
+    }
+    
+    // Password validation
+    if (registerPassword.length < 6) {
+      alert('Password must be 6 characters or more.');
+      return;
+    }
+
+    // Email validation using a stricter regex pattern
+    const strictEmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!strictEmailRegex.test(registerEmail)) {
+      alert('Invalid email format.');
+      return;
+    }
+
     try {
+      // Check if the email already exists
+      const signInMethods = await fetchSignInMethodsForEmail(auth, registerEmail);
+      if (signInMethods.length > 0) {
+        alert('Email already exists. Please use a different email.');
+        return;
+      }
+
+      // Check if the domain exists
+      const domainExists = await checkDomainExists(registerEmail.split('@')[1]);
+      if (!domainExists) {
+        alert('Invalid email domain. Please use a valid email.');
+        return;
+      }
+
+      // Create a new user
       const user = await createUserWithEmailAndPassword(
         auth,
         registerEmail,
@@ -22,11 +57,11 @@ const LoginSignUp = () => {
       const userDocStudent = doc(firestore, "UsernameStudent", user.user.uid);
       const userDocTutor = doc(firestore, "UsernameTutor", user.user.uid);
       var userDoc;
-      if(userType === "Student"){
-         userDoc = userDocStudent
+      if (userType === "Student") {
+        userDoc = userDocStudent
       }
-      else{
-         userDoc = userDocTutor
+      else {
+        userDoc = userDocTutor
       }
       await setDoc(userDoc, {
         Email: registerEmail,
@@ -39,21 +74,35 @@ const LoginSignUp = () => {
 
       setRegisterEmail("");
       setRegisterPassword("");
+      setRegisterUsername("");
 
       if (userType === "Student") {
         window.location.href = '/afterauthpagestudent';
-
       } else if (userType === "Tutor") {
         window.location.href = '/afterauthpagetutor';
       }
-      
+
     } catch (error) {
       console.log(error.message);
     }
   }
 
+  const checkDomainExists = async (domain) => {
+    try {
+      const response = await fetch(`https://dns.google/resolve?name=${domain}`, {
+        method: 'GET',
+      });
+
+      const data = await response.json();
+      return data.Status === 0;
+    } catch (error) {
+      console.error('Error checking domain:', error);
+      return false;
+    }
+  };
+
   return (
-    <div className={styles.container}> 
+    <div className={styles.container}>
       <div className={styles.header}></div>
 
       <div className={styles.box}>
@@ -76,8 +125,7 @@ const LoginSignUp = () => {
               className="rounded-lg"
               placeholder=" Password"
               onChange={(event) => {setRegisterPassword(event.target.value);}}
-            />{" "}
-            {/* Example with medium roundness */}
+            />
           </div>
 
           <div className={styles.input}>
