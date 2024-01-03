@@ -23,7 +23,10 @@ const Index = () => {
         const q = query(coursesRef, where('course_name', '==', selectedCourse.courseName));
         const querySnapshot = await getDocs(q);
 
-        const tutorData = querySnapshot.docs.map((doc) => doc.data());
+        const tutorData = querySnapshot.docs.map((doc) => {
+          //console.log('Document ID:', doc.id);
+          return doc.data(); 
+        });
         console.log(tutorData);
         setTutors(tutorData);
       } catch (error) {

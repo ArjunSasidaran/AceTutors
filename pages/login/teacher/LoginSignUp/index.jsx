@@ -15,6 +15,7 @@ const LoginSignUp = () => {
         loginEmail,
         loginPassword
       );
+      localStorage.setItem('userEmail', user.user.email);
       console.log(user);
       window.location.href = '/afterauthpagetutor';
     } catch (error) {
