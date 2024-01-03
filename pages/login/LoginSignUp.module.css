@@ -1,72 +1,66 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    margin-top: 120px;
-    background:
-    #fff;
-    padding-bottom: 30px;
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 120px;
+  background: #fff;
+  padding-bottom: 30px;
 }
-  
-  .input {
-    display: flex;
-    flex-direction: row; 
-    align-items: center; 
-    gap: 9px;
-    border-radius: 20px;
-    /* Add any additional styles for the input container */
-  }
 
+.input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  border-radius: 20px;
+}
 
+.input input {
+  padding-left: 3px; /* Adjust left padding for spacing inside the input field */
+}
 
-  /* Make sure to include styles for your images if needed */
-  .img {
-    /* If you want all images to have the same width and height */
-    width: 20px; /* Example size, adjust as needed */
-    height: 20px; /* Example size, adjust as needed */
-  }
+.img {
+  width: 20px;
+  height: 20px;
+}
 
-  .text{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 5px;
-    align-items: center;
-    margin-bottom: 20px;
-    gap:20px;
-    color: #fff;
-    font-weight: 700;
-    font-size: larger;
-  }
+.text {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 5px;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  color: #fff;
+  font-weight: 700;
+  font-size: larger;
+}
 
-  .buttons{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 30px;
-    align-items: center;
-    gap: 9px;
-  }
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 30px;
+  align-items: center;
+  gap: 9px;
+}
 
-  .inputPair {
-    display: flex;
-    flex-direction: column;  /* Change from row to column */
-    align-items: center;
-    gap: 20px;
-    /* Add any additional styles for the input container */
-  }
+.inputPair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  /* Add any additional styles for the input container */
+}
 
-  .box {
-    background: rgb(8, 51, 68); /* Your chosen color */
-    padding: 20px; /* Adjust padding to your preference */
-    border-radius: 8px; /* This gives rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* This adds a subtle shadow */
-    width: auto; /* Adjust width as needed, or use max-width for responsive design */
-    margin: 20px auto; /* This centers the box and adds vertical spacing */
-  }
-  
+.box {
+  background: rgb(8, 51, 68);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: auto;
+  margin: 20px auto;
+}
 
-  
-  
-  /* Add any additional global or specific styles as needed */
-  
+/* Add any additional global or specific styles as needed */

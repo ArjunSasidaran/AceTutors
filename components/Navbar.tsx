@@ -17,11 +17,16 @@ export default function Navbar() {
   }, []);
 
   // Function to handle logout
-  const handleLogout = () => {
-    // Perform logout actions (e.g., clear tokens)
-    setLoggedIn(false);
-    window.location.href = '/';
-  };
+const handleLogout = () => {
+  // Perform logout actions (e.g., clear tokens)
+  setLoggedIn(false);
+
+  // Replace the current entry in the session history
+  window.history.replaceState(null, '', '/');
+
+  // Redirect to the home page
+  window.location.href = '/';
+};
 
   return (
     <div className='w-full flex items-center justify-between'>

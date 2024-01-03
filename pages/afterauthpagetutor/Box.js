@@ -1,11 +1,21 @@
 // Box.js
 import React from "react";
 
-const Box = ({ coursename, bio, details, onEdit, onDelete }) => (
-  <div className="mb-4 p-4 border rounded">
+const Box = ({
+  coursename,
+  bio,
+  avail,
+  contact,
+  coursecode,
+  onEdit,
+  onDelete,
+}) => (
+  <div className="mb-4 p-4 border rounded-lg shadow-xl">
     <h2 className="text-xl font-bold">{coursename}</h2>
-    <p className="mb-2">{bio}</p>
-    <p>{details}</p>
+    <p>{coursecode}</p>
+    <p>· Bio: {bio}</p>
+    <p>· Availability: {avail}</p>
+    <p>· Contact: {contact}</p>
     <div className="mt-4">
       <button
         onClick={onEdit}
