@@ -46,17 +46,16 @@ const Index = () => {
       </div>
 
       {/* Render Box components or display a message if no tutors available */}
-      <div className="flex flex-col items-center">
+      <div className="flex flex-wrap justify-around">
         {tutors.length > 0 ? (
           tutors.map((tutor, index) => (
-            <React.Fragment key={index}>
+            <div key={index} className="box-wrapper mb-4">
               <Box
                 bio={tutor.bio}
                 avail={tutor.avail}
                 contact={tutor.contact}
               />
-              {index < tutors.length - 1 && <div className="h-8" />} {/* Adjust the height for the desired space */}
-            </React.Fragment>
+            </div>
           ))
         ) : (
           <p className="fade-in text-lg text-gray-600">Sorry, no tutors available at the moment. Please check back later.</p>

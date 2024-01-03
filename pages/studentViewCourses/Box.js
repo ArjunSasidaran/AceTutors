@@ -3,7 +3,7 @@ import React from 'react';
 
 const Box = ({ bio, avail, contact }) => {
   return (
-    <div className="relative bg-white p-4 shadow-xl rounded-md">
+    <div className="relative bg-white p-4 shadow-xl rounded-md" style={{ width: '300px' }}>
       <div className="z-10 relative">
         <p className="text-lg mb-2">{bio}</p>
         <p className="text-sm text-gray-500">Availability: {avail}</p>
