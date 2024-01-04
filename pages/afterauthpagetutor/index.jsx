@@ -100,7 +100,7 @@ const Index = () => {
   };
 
   return (
-    <div className="max-w-6xl m-auto flex" style={{ height: "90vh" }}>
+    <div className="max-w-6xl m-auto flex">
       {/* Dashboard at the left */}
       <div className="flex-1 p-4">
         <h1 className="font-bold text-5xl text-cyan-950 fade-in">Dashboard</h1>
@@ -111,7 +111,7 @@ const Index = () => {
 
         {/* Display "Posts" subcollection data */}
         {subCollectionData.length > 0 && (
-          <div>
+          <div style={{ height: "90vh", overflowY: "scroll", marginBottom: "40px"}}>
             {/* <h2>Posts Subcollection Data:</h2> */}
             <ul>
               {subCollectionData.map((post, index) => (
