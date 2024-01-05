@@ -18,13 +18,13 @@ const Box = ({
     <p>· Contact: {contact}</p>
     <div className="mt-4">
       <button
-        onClick={onEdit}
+        onClick={() => onEdit(coursecode)}
         className="mr-2 bg-blue-500 text-white px-2 py-1 rounded"
       >
         Edit
       </button>
       <button
-        onClick={onDelete}
+        onClick={() => onDelete(coursecode)}
         className="bg-red-500 text-white px-2 py-1 rounded"
       >
         Delete

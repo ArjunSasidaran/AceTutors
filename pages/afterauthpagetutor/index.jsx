@@ -87,6 +87,16 @@ const Index = () => {
     }
   }, 500);
 
+  // onEdit function
+  const onEdit = (courseCode) => {
+    window.location.href = '/edit-page';
+  };
+
+  // onDelete function
+  const onDelete = (courseCode) => {
+    
+  };
+
   const handleChange = (value) => {
     setInput(value);
     debouncedFetchCourseNames(value);
@@ -111,7 +121,13 @@ const Index = () => {
 
         {/* Display "Posts" subcollection data */}
         {subCollectionData.length > 0 && (
-          <div style={{ height: "90vh", overflowY: "scroll", marginBottom: "40px"}}>
+          <div
+            style={{
+              height: "90vh",
+              overflowY: "scroll",
+              marginBottom: "40px",
+            }}
+          >
             {/* <h2>Posts Subcollection Data:</h2> */}
             <ul>
               {subCollectionData.map((post, index) => (
@@ -122,6 +138,8 @@ const Index = () => {
                   avail={post.avail}
                   contact={post.contact}
                   coursecode={post.course_code}
+                  onEdit={() => onEdit(post.course_code)} // Pass the function correctly
+                  onDelete={() => onDelete(post.course_code)} // Pass the onDelete function if needed
                 />
               ))}
             </ul>
