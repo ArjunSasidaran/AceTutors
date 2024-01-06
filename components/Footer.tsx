@@ -15,7 +15,7 @@ export default function Footer() { //test
   
         {/* Center Text */}
         <div>
-          <strong>© 2023 AceTutors. All right reserved.</strong>
+          <strong>© 2023 AceTutors. All rights reserved.</strong>
         </div>
   
         {/* Contact Us Link */}

@@ -1,71 +1,62 @@
-.container{
-    width: 600px;
-    position: relative;
-    margin-top: 16px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    border-radius:8px;
+.container {
+  width: 600px;
+  position: relative;
+  margin-top: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border-radius: 8px;
 }
 
-.searchbar{
-    height: 60px;
-    width: 600px;
-    background-color:rgb(8, 51, 68);
-    color:white;
-    border-radius:8px;
-    margin-left: 10px;
-    padding-left:10px;
+.searchbar {
+  height: 60px;
+  width: 600px;
+  background-color: rgb(8, 51, 68);
+  color: white;
+  border-radius: 8px;
+  margin-left: 10px;
+  padding-left: 10px;
 }
 
-.searchbar:focus{
-    outline: none;
+.searchbar:focus {
+  outline: none;
 }
 
-.container2{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color:rgb(8, 51, 68);
-    border-radius:8px;
-    color:white;
-    padding-left:10px;
-    padding-right:10px;
-    
+.container2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(8, 51, 68);
+  border-radius: 8px;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.searchResults{
-    margin-top:10px;
-    text-align: left;
-    overflow-y:auto;
-    max-height:200px;
-
+.searchResults {
+  margin-top: 10px;
+  text-align: left;
+  overflow-y: auto;
+  max-height: 200px;
 }
 
 .resultButton {
-    cursor: pointer;
-    padding: 6px;
-    margin: 2px;
-    display:block;
-    
-    
-  }
-  
-  .resultButton:hover {
-    background-color: #e0e0e0; /* Highlight color on hover */
-    
-  }
+  cursor: pointer;
+  padding: 6px;
+  margin: 2px;
+  display: block;
+}
 
+.resultButton:hover {
+  background-color: #e0e0e0; /* Highlight color on hover */
+}
 
-  .splitContainer {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .partAbove {
-    flex-grow: 1; /* Take up remaining vertical space */
-  }
-  
-  
+.splitContainer {
+  display: flex;
+  flex-direction: column;
+}
 
+.partAbove {
+  flex-grow: 1; /* Take up remaining vertical space */
+}

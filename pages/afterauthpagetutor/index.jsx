@@ -1,31 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import styles from "pages/afterauthpagetutor/afterauthpage.module.css";
-import Link from "next/link";
 import Box from "./Box";
 import { firestore } from "backend/server.js";
-import { collection, getDocs } from "@firebase/firestore";
+import { collection, getDocs, query, where } from "@firebase/firestore";
 import { debounce } from "lodash";
 
 const Index = () => {
   const [input, setInput] = useState("");
   const [results, setResults] = useState([]);
+  const [tutorUsername, setTutorUsername] = useState("");
+  const [subCollectionData, setSubCollectionData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const storedData = localStorage.getItem("courseData");
-        if (storedData ) {
+        if (storedData) {
           setResults(JSON.parse(storedData));
         } else {
           const coursesRef = collection(firestore, "Courses");
           const querySnapshot = await getDocs(coursesRef);
-          const coursesData = querySnapshot.docs.map(
-            (doc) => doc.data()
-          );
+          const coursesData = querySnapshot.docs.map((doc) => doc.data());
 
           localStorage.setItem("courseData", JSON.stringify(coursesData));
           setResults(coursesData);
+        }
+
+        const email = localStorage.getItem("userEmail");
+        console.log("User Email from localStorage:", email);
+
+        const tutorRef = collection(firestore, "UsernameTutor");
+        const tutorQuery = query(tutorRef, where("Email", "==", email));
+        const tutorSnapshot = await getDocs(tutorQuery);
+
+        console.log("Tutor Snapshot:", tutorSnapshot.docs);
+
+        if (tutorSnapshot.docs.length > 0) {
+          const tutorData = tutorSnapshot.docs[0].data();
+          console.log("Tutor Data:", tutorData);
+
+          // Retrieve the "Username" field
+          const tutorUsername = tutorData.Username; // Update "Username" to the actual field name
+          console.log("Tutor Username:", tutorUsername);
+
+          setTutorUsername(tutorUsername);
+
+          // Access the "Posts" subcollection within the tutor's document
+          const tutorDocId = tutorSnapshot.docs[0].id; // Get the document ID
+          const postsSubCollectionRef = collection(
+            firestore,
+            "UsernameTutor",
+            tutorDocId,
+            "Posts"
+          ); // "Posts" is the subcollection name
+          const postsSubCollectionSnapshot = await getDocs(
+            postsSubCollectionRef
+          );
+          const postsSubCollectionData = postsSubCollectionSnapshot.docs.map(
+            (doc) => doc.data()
+          );
+          console.log("Posts Subcollection Data:", postsSubCollectionData);
+
+          setSubCollectionData(postsSubCollectionData);
+        } else {
+          console.error("No tutor data found for the provided email.");
         }
       } catch (error) {
         console.error("Error fetching or storing course names:", error.message);
@@ -39,13 +78,24 @@ const Index = () => {
     const storedData = localStorage.getItem("courseData");
     console.log(storedData);
     if (storedData) {
-      const filteredResults = JSON.parse(storedData).filter((course) =>
-        course["course name"].toLowerCase().includes(value.toLowerCase()) || 
-        course["course code"].toLowerCase().includes(value.toLowerCase())
+      const filteredResults = JSON.parse(storedData).filter(
+        (course) =>
+          course["course name"].toLowerCase().includes(value.toLowerCase()) ||
+          course["course code"].toLowerCase().includes(value.toLowerCase())
       );
       setResults(filteredResults);
     }
   }, 500);
+
+  // onEdit function
+  const onEdit = (courseCode) => {
+    window.location.href = '/edit-page';
+  };
+
+  // onDelete function
+  const onDelete = (courseCode) => {
+    
+  };
 
   const handleChange = (value) => {
     setInput(value);
@@ -53,26 +103,48 @@ const Index = () => {
   };
 
   const handleCourseClick = (courseCode, courseName) => {
-    localStorage.setItem("selectedCourse", JSON.stringify({ courseCode, courseName }));
+    localStorage.setItem(
+      "selectedCourse",
+      JSON.stringify({ courseCode, courseName })
+    );
   };
 
   return (
-    <div className="max-w-6xl m-auto flex" style={{ height: "90vh" }}>
+    <div className="max-w-6xl m-auto flex">
       {/* Dashboard at the left */}
       <div className="flex-1 p-4">
         <h1 className="font-bold text-5xl text-cyan-950 fade-in">Dashboard</h1>
         <p className="mb-10">Place to view all your listings.</p>
 
-        <Box
-          coursename="Math 2030"
-          bio="My name is John, I got an A+ in this course."
-          details="Contact Details: xyz@gmail.com"
-        />
-        <Box
-          coursename="EECS 2031"
-          bio="My name is Jake, I got an A+ in this course."
-          details="Contact Details: xyz@gmail.com"
-        />
+        {/* Display tutor's username
+        <p>Tutor's Username: {tutorUsername}</p> */}
+
+        {/* Display "Posts" subcollection data */}
+        {subCollectionData.length > 0 && (
+          <div
+            style={{
+              height: "90vh",
+              overflowY: "scroll",
+              marginBottom: "40px",
+            }}
+          >
+            {/* <h2>Posts Subcollection Data:</h2> */}
+            <ul>
+              {subCollectionData.map((post, index) => (
+                <Box
+                  key={index}
+                  coursename={post.course_name}
+                  bio={post.bio}
+                  avail={post.avail}
+                  contact={post.contact}
+                  coursecode={post.course_code}
+                  onEdit={() => onEdit(post.course_code)} // Pass the function correctly
+                  onDelete={() => onDelete(post.course_code)} // Pass the onDelete function if needed
+                />
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Search bar on the right */}
@@ -96,8 +168,19 @@ const Index = () => {
           {input && (
             <div className={styles.searchResults}>
               {results.map((course, index) => (
-                <a key={index} href="/calender" onClick = {() => handleCourseClick(course["course code"],course["course name"])}>
-                  <button className={styles.resultButton}>{course["course code"]} - {course["course name"]}</button>
+                <a
+                  key={index}
+                  href="/calender"
+                  onClick={() =>
+                    handleCourseClick(
+                      course["course code"],
+                      course["course name"]
+                    )
+                  }
+                >
+                  <button className={styles.resultButton}>
+                    {course["course code"]} - {course["course name"]}
+                  </button>
                 </a>
               ))}
             </div>
