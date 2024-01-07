@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import styles from "pages/afterauthpagetutor/afterauthpage.module.css";
 import Box from "./Box";
 import { firestore } from "backend/server.js";
-import { collection, getDocs, query, where, deleteDoc } from "@firebase/firestore";
+import { collection, getDocs, deleteDoc, query, where, doc } from 'firebase/firestore';
 import { debounce } from "lodash";
 
 const Index = () => {
@@ -104,6 +104,29 @@ const Index = () => {
     });
     
     console.log("Successful delete");
+
+
+    ////Ayamo Cooking
+
+    const email = localStorage.getItem('userEmail');
+
+    const tutorRef = collection(firestore, 'UsernameTutor');
+    const qTutor = query(tutorRef, where('Email', '==', email));
+    const tutorSnapshot = await getDocs(qTutor);
+
+    const tutorDoc = tutorSnapshot.docs[0];
+    const documentId = tutorDoc.id;
+
+    const userRef = doc(tutorRef, documentId);
+    const subCollectionRef = collection(userRef, 'Posts');
+
+    const subCollectionQuery = query(subCollectionRef, where('course_code', '==', courseCode));
+    const subCollectionSnapshot = await getDocs(subCollectionQuery);
+
+    subCollectionSnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+      window.location.href='/afterauthpagetutor'
+    });
 
     } catch (error) {
       console.log(error.message);
