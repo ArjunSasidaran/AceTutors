@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import styles from "pages/afterauthpagetutor/afterauthpage.module.css";
 import Box from "./Box";
 import { firestore } from "backend/server.js";
-import { collection, getDocs, query, where } from "@firebase/firestore";
+import { collection, getDocs, query, where, deleteDoc } from "@firebase/firestore";
 import { debounce } from "lodash";
 
 const Index = () => {
@@ -93,8 +93,21 @@ const Index = () => {
   };
 
   // onDelete function
-  const onDelete = (courseCode) => {
+  const onDelete = async (courseCode) => {
+    try {
+      const collect = collection(firestore, "TutorCourse");
+      const q = query(collect, where('course_code', '==', courseCode));
+      const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
     
+    console.log("Successful delete");
+
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const handleChange = (value) => {
