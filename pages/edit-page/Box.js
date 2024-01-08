@@ -23,7 +23,7 @@ const Box = ({
     localStorage.setItem("selectedCourse", JSON.stringify(selectedCourse));
 
     // Trigger the onEdit function
-    onEdit(coursecode);
+    onEdit(coursecode, bio, avail, contact);
   };
 
   return (
@@ -35,7 +35,7 @@ const Box = ({
       <p>· Contact: {contact}</p>
       <div className="mt-4">
         <button
-          onClick={() => onEdit(coursecode)}
+          onClick={() => onEdit(coursecode, bio, avail, contact)}
           className="mr-2 bg-blue-500 text-white px-2 py-1 rounded"
         >
           Edit

@@ -88,7 +88,7 @@ const Index = () => {
   }, 500);
 
   // onEdit function
-  const onEdit = (courseCode) => {
+  const onEdit = async (courseCode) => {
     window.location.href = '/edit-page';
   };
 
