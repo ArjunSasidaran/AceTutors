@@ -15,8 +15,7 @@ export default function Home() {
       <div className="flex justify-start flex-col">
         <h1 className="font-bold text-5xl text-cyan-950 fade-in">AceTutors</h1>
         <p className="mb-10">
-          A place to connect with tutors and students for York University
-          courses.
+          A place to connect with tutors and students for York University courses.
         </p>
         <div className="flex">
           <Link href="/login/student/LoginSignUp">
