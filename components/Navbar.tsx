@@ -10,7 +10,8 @@ export default function Navbar() {
       currentUrl.includes('/afterauthpagestudent') ||
       currentUrl.includes('/afterauthpagetutor') ||
       currentUrl.includes('/calender') ||
-      currentUrl.includes('/studentViewCourses')
+      currentUrl.includes('/studentViewCourses') ||
+      currentUrl.includes('/edit-page')
     ) {
       setLoggedIn(true);
     }

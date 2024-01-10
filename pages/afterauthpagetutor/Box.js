@@ -23,7 +23,7 @@ const Box = ({
     localStorage.setItem("selectedCourse", JSON.stringify(selectedCourse));
 
     // Trigger the onEdit function
-    onEdit(coursecode);
+    // onEdit(coursecode);
   };
 
   return (
