@@ -2,34 +2,35 @@
 import React, { useRef, useEffect } from "react";
 import styles from "./edit-page.module.css";
 import { firestore } from "backend/server.js";
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
 
 const Index = () => {
+  const ref = collection(firestore, "TutorCourse");
   const bio = useRef();
   const avail = useRef();
   const contact = useRef();
+  const subCollectionRef = useRef();
 
-  const onEdit = async (courseCode) => {
-    try {
-      const collect = collection(firestore, "TutorCourse");
-      const q = query(collect, where('course_code', '==', courseCode));
-      const querySnapshot = await getDocs(q);
+  // const onEdit = async (courseCode) => {
+  //   try {
+  //     const q = query(ref, where('course_code', '==', courseCode));
+  //     const querySnapshot = await getDocs(q);
 
-      const courseDoc = querySnapshot.docs[0];
-      const courseData = courseDoc.data();
+  //     const courseDoc = querySnapshot.docs[0];
+  //     const courseData = courseDoc.data();
 
-      bio.current.value = courseData.bio;
-      avail.current.value = courseData.avail;
-      contact.current.value = courseData.contact;
+  //     bio.current.value = courseData.bio;
+  //     avail.current.value = courseData.avail;
+  //     contact.current.value = courseData.contact;
 
-      document.getElementById('displayBio').innerText = courseData.bio;
-      document.getElementById('displayAvailability').innerText = courseData.avail;
-      document.getElementById('displayContact').innerText = courseData.contact;
+  //     document.getElementById('displayBio').innerText = courseData.bio;
+  //     document.getElementById('displayAvailability').innerText = courseData.avail;
+  //     document.getElementById('displayContact').innerText = courseData.contact;
 
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -38,9 +39,51 @@ const Index = () => {
     const selectedCourse = JSON.parse(localStorage.getItem("selectedCourse"));
     const selectedCourseCode = selectedCourse ? selectedCourse.coursecode : null;
 
-    await onEdit(selectedCourseCode);
+    //await onEdit(selectedCourseCode);
 
     // Add your logic here for saving the form data or any other client-side functionality
+    let data = {
+      bio: bio.current.value,
+      avail: avail.current.value,
+      contact: contact.current.value,
+    }
+  
+    try {
+      const q = query(ref, where('course_code', '==', selectedCourseCode));
+      const querySnapshot = await getDocs(q);
+      
+      querySnapshot.forEach(async (doc) => {
+        const docRef = doc.ref;
+        console.log("Updating document with ID:", doc.id);
+        await updateDoc(docRef, data);
+        console.log("Data to Update:", data);
+        console.log("Document updated successfully");
+      });
+
+      const email = localStorage.getItem('userEmail');
+
+      const tutorRef = collection(firestore, 'UsernameTutor');
+      const qTutor = query(tutorRef, where('Email', '==', email));
+      const tutorSnapshot = await getDocs(qTutor);
+
+      const tutorDoc = tutorSnapshot.docs[0];
+      const documentId = tutorDoc.id;
+
+      const userRef = doc(tutorRef, documentId);
+      const subCollectionRef = collection(userRef, 'Posts');
+
+      const subCollectionQuery = query(subCollectionRef, where('course_code', '==', selectedCourseCode));
+      const subCollectionSnapshot = await getDocs(subCollectionQuery);
+
+      subCollectionSnapshot.forEach(async (doc) => {
+        const docRef = doc.ref;
+        await updateDoc(docRef, data);
+      });
+    
+    } catch (error) {
+      console.log(error.message);
+      return;
+    }
 
     e.target.reset();
     alert('Your listing has been edited successfully!');
