@@ -2,7 +2,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import styles from "./edit-page.module.css";
 import { firestore } from "backend/server.js";
-import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 const Index = () => {
   const ref = collection(firestore, "TutorCourse");
@@ -10,33 +17,37 @@ const Index = () => {
   const avail = useRef();
   const contact = useRef();
 
-  // const onEdit = async (courseCode) => {
-  //   try {
-  //     const q = query(ref, where('course_code', '==', courseCode));
-  //     const querySnapshot = await getDocs(q);
+  const [name, setName] = useState("");
 
-  //     const courseDoc = querySnapshot.docs[0];
-  //     const courseData = courseDoc.data();
+  const onEdit = async (courseCode) => {
+    try {
+      const q = query(ref, where("course_code", "==", courseCode));
+      const querySnapshot = await getDocs(q);
 
-  //     bio.current.value = courseData.bio;
-  //     avail.current.value = courseData.avail;
-  //     contact.current.value = courseData.contact;
+      const courseDoc = querySnapshot.docs[0];
+      const courseData = courseDoc.data();
 
-  //     document.getElementById('displayBio').innerText = courseData.bio;
-  //     document.getElementById('displayAvailability').innerText = courseData.avail;
-  //     document.getElementById('displayContact').innerText = courseData.contact;
+      bio.current.value = courseData.bio;
+      avail.current.value = courseData.avail;
+      contact.current.value = courseData.contact;
 
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+      document.getElementById("displayBio").innerText = courseData.bio;
+      document.getElementById("displayAvailability").innerText =
+        courseData.avail;
+      document.getElementById("displayContact").innerText = courseData.contact;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleSave = async (e) => {
     e.preventDefault();
 
     // Replace 'yourCourseCode' with the actual logic to get the course code
     const selectedCourse = JSON.parse(localStorage.getItem("selectedCourse"));
-    const selectedCourseCode = selectedCourse ? selectedCourse.coursecode : null;
+    const selectedCourseCode = selectedCourse
+      ? selectedCourse.coursecode
+      : null;
 
     //await onEdit(selectedCourseCode);
 
@@ -45,12 +56,12 @@ const Index = () => {
       bio: bio.current.value,
       avail: avail.current.value,
       contact: contact.current.value,
-    }
-  
+    };
+
     try {
-      const q = query(ref, where('course_code', '==', selectedCourseCode));
+      const q = query(ref, where("course_code", "==", selectedCourseCode));
       const querySnapshot = await getDocs(q);
-      
+
       querySnapshot.forEach(async (doc) => {
         const docRef = doc.ref;
         console.log("Updating document with ID:", doc.id);
@@ -59,41 +70,46 @@ const Index = () => {
         console.log("Document updated successfully");
       });
 
-      const email = localStorage.getItem('userEmail');
+      const email = localStorage.getItem("userEmail");
 
-      const tutorRef = collection(firestore, 'UsernameTutor');
-      const qTutor = query(tutorRef, where('Email', '==', email));
+      const tutorRef = collection(firestore, "UsernameTutor");
+      const qTutor = query(tutorRef, where("Email", "==", email));
       const tutorSnapshot = await getDocs(qTutor);
 
       const tutorDoc = tutorSnapshot.docs[0];
       const documentId = tutorDoc.id;
 
       const userRef = doc(tutorRef, documentId);
-      const subCollectionRef = collection(userRef, 'Posts');
+      const subCollectionRef = collection(userRef, "Posts");
 
-      const subCollectionQuery = query(subCollectionRef, where('course_code', '==', selectedCourseCode));
+      const subCollectionQuery = query(
+        subCollectionRef,
+        where("course_code", "==", selectedCourseCode)
+      );
       const subCollectionSnapshot = await getDocs(subCollectionQuery);
 
       subCollectionSnapshot.forEach(async (doc) => {
         const docRef = doc.ref;
         await updateDoc(docRef, data);
       });
-    
     } catch (error) {
       console.log(error.message);
       return;
     }
 
     e.target.reset();
-    alert('Your listing has been edited successfully!');
-    window.location.href = '/afterauthpagetutor'; // Redirect to the dashboard page
+    alert("Your listing has been edited successfully!");
+    window.location.href = "/afterauthpagetutor"; // Redirect to the dashboard page
   };
 
   useEffect(() => {
     try {
       const selectedCourse = JSON.parse(localStorage.getItem("selectedCourse"));
-      const selectedCourseCode = selectedCourse ? selectedCourse.coursecode : null;
+      const selectedCourseCode = selectedCourse
+        ? selectedCourse.coursecode
+        : null;
       console.log("Course Code:", selectedCourseCode);
+      setName(selectedCourse);
       onEdit(selectedCourseCode);
     } catch (error) {
       console.log("Error while extracting course code:", error.message);
@@ -102,14 +118,20 @@ const Index = () => {
 
   return (
     <div className={styles.create}>
-      <h2 className={styles.createh2}>Editing Your Listing for {selectedCourse.coursecode} -{" "}
-        {selectedCourse.coursename}{" "}</h2>
+      <h2 className={styles.createh2}>
+        Editing Your Listing for {name.coursecode} - {name.coursename}{" "}
+      </h2>
 
       <div className={styles.formContainer}>
         <form onSubmit={handleSave}>
           <div className={styles.fieldContainer}>
             <label className={styles.createlabel}>Bio:</label>
-            <input type="text" ref={bio} className={styles.createinput} required />
+            <input
+              type="text"
+              ref={bio}
+              className={styles.createinput}
+              required
+            />
           </div>
 
           <div className={styles.fieldContainer}>
@@ -119,7 +141,12 @@ const Index = () => {
 
           <div className={styles.fieldContainer}>
             <label className={styles.createlabel}>Contact Details:</label>
-            <input type="text" ref={contact} className={styles.createinput} required />
+            <input
+              type="text"
+              ref={contact}
+              className={styles.createinput}
+              required
+            />
           </div>
 
           <button type="submit" className={styles.createbutton}>

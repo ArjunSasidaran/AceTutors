@@ -8,7 +8,7 @@ export default function Footer() { //test
       <footer className="w-full flex items-center justify-between p-4 bg-cyan-900 text-white">
         {/* LinkedIn Logo */}
         <div className="flex items-center">
-          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/company/acetutors/" target="_blank" rel="noopener noreferrer">
             <img src="/linkedin.svg" alt="LinkedIn" className="h-8 w-8"/>
           </a>
         </div>

@@ -22,12 +22,17 @@ const Box = ({
     // Update selected course in localStorage
     localStorage.setItem("selectedCourse", JSON.stringify(selectedCourse));
 
+    // console.log(selectedCourse);
+
     // Trigger the onEdit function
     onEdit(coursecode, bio, avail, contact);
   };
 
   return (
-    <div className="mb-4 p-4 border rounded-lg shadow-xl" onClick={handleBoxClick}>
+    <div
+      className="mb-4 p-4 border rounded-lg shadow-xl"
+      onClick={handleBoxClick}
+    >
       <h2 className="text-xl font-bold">{coursename}</h2>
       <p>{coursecode}</p>
       <p>· Bio: {bio}</p>
