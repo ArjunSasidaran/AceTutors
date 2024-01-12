@@ -18,75 +18,62 @@ const LoginSignUp = () => {
       alert('Please select whether you are a Student or Tutor.');
       return;
     }
-    
-    // Password validation
-    if (registerPassword.length < 6) {
-      alert('Password must be 6 characters or more.');
-      return;
-    }
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          registerEmail,
+          registerPassword
+        );
 
-    // Email validation using a stricter regex pattern
-    const strictEmailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!strictEmailRegex.test(registerEmail)) {
-      alert('Invalid email format.');
-      return;
-    }
+        const user = userCredential.user;
+        console.log('User created:', user);
+        
+        localStorage.setItem("userEmail", registerEmail);
+        const userDocStudent = doc(firestore, "UsernameStudent", user.uid);
+        const userDocTutor = doc(firestore, "UsernameTutor", user.uid);
+        var userDoc;
+        
+        if (userType === "Student") {
+          userDoc = userDocStudent;
+        } else {
+          userDoc = userDocTutor;
+        }
+  
+        await setDoc(userDoc, {
+          Email: registerEmail,
+          Username: registerUsername,
+          Type: userType,
+        });
 
-    try {
-      // Check if the email already exists
-      const signInMethods = await fetchSignInMethodsForEmail(auth, registerEmail);
-      if (signInMethods.length > 0) {
-        alert('Email already exists. Please use a different email.');
-        return;
+        
+  
+        alert('Form submitted successfully!');
+        console.log(user);
+  
+        if (userType === "Student") {
+          window.location.href = '/afterauthpagestudent';
+        } else if (userType === "Tutor") {
+          window.location.href = '/afterauthpagetutor';
+        }
+      } catch (error) {
+        const errorMessage = error.message;
+          if(errorMessage ===  "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+            alert("Password must be minimum 6 characters");
+          }
+          else if(errorMessage === "Firebase: Error (auth/email-already-in-use)."){
+            alert("Email Already in use");
+          }
+          else if(errorMessage === "Firebase: Error (auth/invalid-email)."){
+            alert("Invalid Email Format.");
+          }
+          else{
+            alert("Problem signing up , please try again.");
+          }
       }
-
-      // Check if the domain exists
-      const domainExists = await checkDomainExists(registerEmail.split('@')[1]);
-      if (!domainExists) {
-        alert('Invalid email domain. Please use a valid email.');
-        return;
-      }
-
-      // Create a new user
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-
-      const userDocStudent = doc(firestore, "UsernameStudent", user.user.uid);
-      const userDocTutor = doc(firestore, "UsernameTutor", user.user.uid);
-      var userDoc;
-      if (userType === "Student") {
-        userDoc = userDocStudent
-      }
-      else {
-        userDoc = userDocTutor
-      }
-      await setDoc(userDoc, {
-        Email: registerEmail,
-        Username: registerUsername,
-        Type: userType,
-      });
-
-      alert('Form submitted successfully!');
-      console.log(user);
-
-      setRegisterEmail("");
-      setRegisterPassword("");
-      setRegisterUsername("");
-
-      if (userType === "Student") {
-        window.location.href = '/afterauthpagestudent';
-      } else if (userType === "Tutor") {
-        window.location.href = '/afterauthpagetutor';
-      }
-
-    } catch (error) {
-      console.log(error.message);
-    }
   }
 
+
+  /*
   const checkDomainExists = async (domain) => {
     try {
       const response = await fetch(`https://dns.google/resolve?name=${domain}`, {
@@ -100,6 +87,7 @@ const LoginSignUp = () => {
       return false;
     }
   };
+  */
 
   return (
     <div className={styles.container}>
